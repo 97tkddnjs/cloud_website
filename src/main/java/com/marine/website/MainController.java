@@ -12,4 +12,10 @@ public class MainController {
         return "index";
     }
 
+    @RequestMapping("/show")
+    String index2(){
+        return "show";
+    }
+
+
 }
