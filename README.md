@@ -1,3 +1,3 @@
-# marine_bigdata_website
-website for marine
-스마트 해상물류 빅데이터 팀에서 쓸 website demo
+# cloud_website
+website for cloud API 
+네이버 클라우드를 이용한 사이트 데모 website demo
