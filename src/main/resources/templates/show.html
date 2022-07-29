@@ -2,13 +2,142 @@
 
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <div id="map" style="width:100%;height:100vh;"></div>
+<!--    <div id="map" style="width:100%; height:100vh;"></div>-->
+    <div id="map" style="width:600px; height:600px;"></div>
     <script>
-        var mapOptions = {
-            center: new naver.maps.LatLng(37.3595704, 127.105399),
-            zoom: 10
-        };
-        var map = new naver.maps.Map('map', mapOptions); // id와 option
+
+        // naver.maps.Service.geocode({
+        //     address: '서울 중구 을지로 15길 6-5'
+        // }, function(status, response) {
+        //     if (status !== naver.maps.Service.Status.OK) {
+        //         return alert('Something wrong!');
+        //     }
+        //     // alert("ok");
+        //     var result = response.result, // 검색 결과의 컨테이너
+        //         items = result.items; // 검색 결과의 배열
+        //     alert(items[0].x);
+        //     let x = parseFloat(items[0].x); // 경도
+        //     let y = parseFloat(items[0].y); // 위도
+        //     // 37.3595704, 127.105399
+        //     var mapOptions = {
+        //         center: new naver.maps.LatLng(y, x),
+        //         zoom: 10
+        //     };
+        //     var map = new naver.maps.Map('map', mapOptions); // id와 option
+        //
+        // } );
+
+        // naver.maps.Service.geocode({
+        //     address: '불정로 6'
+        // }, function(status, response) {
+        //     if (status !== naver.maps.Service.Status.OK) {
+        //         return alert('Something wrong!');
+        //     }
+        //
+        //     var result = response.result, // 검색 결과의 컨테이너
+        //         items = result.items; // 검색 결과의 배열
+        //         console.log(items[2])
+        //     // do Something
+        // });
+
+        // var mapOptions = {
+        //     center: new naver.maps.LatLng(37.3595704, 127.105399),
+        //     zoom: 10
+        // };
+        // var map = new naver.maps.Map('map', mapOptions); // id와 option
+
+
+        function geocode(status, response) {
+            if (status !== naver.maps.Service.Status.OK) {
+                // 실행이 되지 않을 경우
+                return alert('Something wrong!');
+
+            }
+
+            // 제대로 된 query가 들어가 결과가 나올 경우
+            var result = response.v2, // 검색 결과의 컨테이너
+                items = result.addresses; // 검색 결과의 배열
+            /* alert(items[0].x+', '+items[0].y+', '+typeof items[0].x+', '+typeof items[0].y); */
+
+            //지도에 마커찍기
+            let x = parseFloat(items[0].x); // 경도
+            let y = parseFloat(items[0].y); // 위도
+
+            // 지도 띄우기
+            var map = new naver.maps.Map('map', {
+                center: new naver.maps.LatLng(y, x),
+                zoom: 19
+            });
+
+            // 마커 찍기
+            var marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(y, x),
+                map: map
+            });
+
+        }
+
+        // $(document).ready(function(){
+        //     // 가게 데이터 가져오는 ajax 코드
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "/show",
+        //         data: {},
+        //         success: function(response){
+        //             console.log(response)
+        //         }
+        //     });
+        //
+        //
+        // });
+        function show(data){
+            naver.maps.Service.geocode({
+                query: data  // String 타입의 주소값
+            }, geocode);
+        }
+
+
+
+
+
     </script>
+    <body>
+    <div class="container" style="max-width: 600px">
+        <div class="py-5 text-center">
+            <h2>식당 목록</h2>
+        </div>
+<!--        <div class="row">-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-primary float-end"-->
+<!--                        onclick="location.href='addForm.html'"-->
+<!--                        th:onclick="|location.href='@{/basic/items/add}'|"-->
+<!--                        type="button">상품 등록</button>-->
+<!--            </div>-->
+<!--        </div>-->
+        <hr class="my-4">
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>상품명</th>
+                    <th>가격</th>
+                    <th>수량</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td><a href="item.html" th:href="@{/basic/items/{itemId}(itemId=${item.id})}" th:text="${item.id}">회원id</a></td>
+                    <td><a href="item.html" th:href="@{|/basic/items/${item.id}|}"
+                           th:text="${item.itemName}">상품명</a></td>
+                    <td th:text="${item.price}">10000</td>
+                    <td th:text="${item.quantity}">10</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- /container -->
+    </body>
+
 </div>
 </html>
