@@ -11,27 +11,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
-    GeoService e = new GeoService();
+    GeoService e;
     @RequestMapping("/")
     String index(){
         return "index";
     }
 
+    @RequestMapping("/show")
+    String visual(Model model){
+
+        return "show";
+    }
     @RequestMapping("/input")
     String index2(){
         //e.adder("불정로 6");
         return "input";
     }
-    @RequestMapping("/show")
-    String visual(Model model){
-        //e.adder("불정로 6");
-        return "show";
-    }
+
+//    @PostMapping("restApi/address")
+
+
     @PostMapping ("/show")
     String visual(@RequestParam String adder , Model model){
 
         model.addAttribute("adder",adder);
-        System.out.println("adder = " + adder);
+        e.adder(adder);
         return "redirect:/show";
     }
 

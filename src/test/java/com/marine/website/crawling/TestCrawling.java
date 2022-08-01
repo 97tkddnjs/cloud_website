@@ -75,8 +75,8 @@ public class TestCrawling {
     @Test
     public void test_site2() {
 
-        String clientId = "";
-        String clientSecret = "";
+        String clientId = "8v1d7xdlkc";
+        String clientSecret = "p75ej6MbvLyiEzZbPduseqzo9fapDYXArlTkNJKo";
         String baseurl = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=";
         String address = "서울시 중구 을지로 15길 6-5";
 
